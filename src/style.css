@@ -1,3 +1,160 @@
-.hello {
-  color: red;
+@font-face {
+  font-family: neuePower;
+  src: url(./font/NeuePower/NeuePower-Ultra.ttf);
+}
+
+@font-face {
+  font-family: roboto;
+  src: url(./font/Roboto/Roboto-Regular.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  font-size: 6vh;
+  padding: 3vh;
+}
+
+.title {
+  font-family: neuePower;
+  color: #bac2da;
+}
+
+body {
+  font-family: roboto;
+  background-color: #5063a3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 3vh;
+  height: 100vh;
+  width: 100vw;
+}
+
+table {
+  border-spacing: .2vh;
+}
+
+.game-div {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.player {
+  width: 45vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+tbody {
+  display: grid;
+}
+
+#assignment td:hover{
+  background-color: rgb(83, 185, 52);
+}
+
+tr td {
+  border: solid .1vh black;
+  height: 4.5vh;
+  width: 4.5vh;
+  padding: 1px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #bac2da;
+  opacity: .8;
+}
+
+td:hover {
+  background-color: rgb(182, 37, 37);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  padding: 3vh;
+}
+
+a {
+  display: flex;
+  align-items: center;
+  gap: .7vw;
+  font-size: 3vh;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a {
+  color: black;
+}
+
+a:hover {
+  color: gray;
+}
+
+a:visited {
+  color: black;
+}
+
+a img {
+  height: 5vh;
+}
+
+.menu,
+.ship-assignment{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 80vh;
+  background-color: #5063a3;
+  backdrop-filter: blur(8px);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5vh;
+}
+
+.ship-assignment {
+  display: none;
+}
+
+.menu-title{
+    font-family: roboto;
+    font-size: 5vh;
+}
+
+.buttons-div{
+  display: flex;
+  gap: 5vh;
+}
+
+.buttons-div button,
+.rotate-button{
+  border: none;
+  font-size: 2vh;
+  font-family: roboto;
+  font-weight: bold;
+  padding: 1vh 3vh 1vh 3vh;
+  width: 20vh;
+  cursor: pointer;
+}
+
+.buttons-div button:hover,
+.rotate-button:hover{
+  background-color: rgb(185, 185, 185);
+}
+
+.highlight,
+.selected {
+  background-color: rgb(83, 185, 52);
 }

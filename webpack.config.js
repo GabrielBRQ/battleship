@@ -4,13 +4,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   mode: "development",
   entry: {
-    index: "./src/index.js",
-    print: "./src/print.js",
+    index: "./src/scripts/index.js",
   },
   devtool: 'inline-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Development",
+      title: "Battleship",
+      template: 'src/index.html',
+      filename: 'index.html',
+      chunks: ['index'],
     }),
   ],
   output: {
