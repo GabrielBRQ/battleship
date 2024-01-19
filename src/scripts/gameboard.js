@@ -21,16 +21,35 @@ class Gameboard {
         // Put a ship on the board
         if (isVertical) {
             for (let i = 0; i < ship.size; i++) {
-                this.grid[row + i][col] = ship;
+                if (!this.grid[row + i]) {
+                    this.grid[row + i] = [];
+                    console.log(`Ship added in ${this.grid[row + i]}`)
+                }
+                if (!this.grid[row + i][col]) {
+                    this.grid[row + i][col] = ship;
+                    console.log(`Ship added in ${this.grid[row + i][col]}`)
+                } else {
+                    // Handle the case where a cell is already occupied
+                    console.error('Error: Cell already occupied!');
+                    return;
+                }
             }
         } else {
             for (let i = 0; i < ship.size; i++) {
-                this.grid[row][col + i] = ship;
+                if (!this.grid[row]) {
+                    this.grid[row] = [];
+                }
+                if (!this.grid[row][col + i]) {
+                    this.grid[row][col + i] = ship;
+                } else {
+                    // Handle the case where a cell is already occupied
+                    console.error('Error: Cell already occupied!');
+                    return;
+                }
             }
         }
         this.ships.push(ship);
     }
-
     receiveAttack(row, col) {
         // Receive an attack at specific coordinates
         const target = this.grid[row][col];

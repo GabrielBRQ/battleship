@@ -1,4 +1,6 @@
 import { Gameboard } from "./gameboard";
+import { Ship, createShip } from "./ships";
+import { playerOne, playerTwo } from "./index";
 
 function createGrid(tableId) {
   var table = document.getElementById(tableId);
@@ -20,14 +22,14 @@ function startGame() {
     menu.style.display = "none";
     shipScreen.style.display = "flex";
     createGrid("assignment");
-    assignmentShips();
-    const playerOne = new Gameboard();
-    const playerTwo = new Gameboard();
+    assignmentShips(playerOne);
   });
 }
 
-function assignmentShips() {
+function assignmentShips(playerOne) {
+  const assignmentDiv = document.querySelector(".ship-assignment");
   const assignmentTable = document.getElementById("assignment");
+  const playerOneTable = document.getElementById("playerOneGrid");
   const cells = assignmentTable.getElementsByTagName("td");
   const rotateButton = document.querySelector(".rotate-button");
   let isHorizontal = true; // Flag to track the orientation
@@ -113,10 +115,23 @@ function assignmentShips() {
         return; // Return early if any part of the ship is outside the grid
       }
 
+      // Create a new ship with the specified size
+      const newShip = createShip(shipSizes[currentShipIndex]);
+
+      // Call placeShip to position the ship on the gameboard
+      playerOne.placeShip(
+        newShip,
+        rowIndex,
+        selectedCell.cellIndex,
+        !isHorizontal
+      );
+
       const cell = assignmentTable.rows[rowIndex].cells[cellIndex];
+      const playerCell = playerOneTable.rows[rowIndex].cells[cellIndex];
 
       if (cell) {
         cell.classList.add("selected");
+        playerCell.classList.add("selected");
       }
     }
 
@@ -125,8 +140,7 @@ function assignmentShips() {
 
     // If all ships are placed, reset the game or take further actions
     if (currentShipIndex >= shipSizes.length) {
-      // You can add logic here for when all ships are placed
-      alert("All ships are placed! Game can start.");
+      assignmentDiv.style.display = "none";
     } else {
       // Update the number of extra cells for the next ship
       extraCells = shipSizes[currentShipIndex];
