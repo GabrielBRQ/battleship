@@ -1,6 +1,7 @@
 import { Gameboard } from "./gameboard";
 import { Ship, createShip } from "./ships";
 import { playerOne, playerTwo } from "./index";
+import { placeAIShips } from "./player";
 
 function createGrid(tableId) {
   var table = document.getElementById(tableId);
@@ -141,6 +142,7 @@ function assignmentShips(playerOne) {
     // If all ships are placed, reset the game or take further actions
     if (currentShipIndex >= shipSizes.length) {
       assignmentDiv.style.display = "none";
+      placeAIShips(playerTwo);
     } else {
       // Update the number of extra cells for the next ship
       extraCells = shipSizes[currentShipIndex];
@@ -176,4 +178,10 @@ function assignmentShips(playerOne) {
   }
 }
 
-export { createGrid, startGame };
+// Função para atualizar a interface após o ataque
+function updateUIAfterAttack(selectedCell, attackResult) {
+  selectedCell.textContent = '.';
+  console.log('chamou');
+}
+
+export { createGrid, startGame, updateUIAfterAttack };

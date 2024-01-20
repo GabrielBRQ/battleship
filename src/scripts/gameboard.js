@@ -23,15 +23,9 @@ class Gameboard {
             for (let i = 0; i < ship.size; i++) {
                 if (!this.grid[row + i]) {
                     this.grid[row + i] = [];
-                    console.log(`Ship added in ${this.grid[row + i]}`)
                 }
                 if (!this.grid[row + i][col]) {
                     this.grid[row + i][col] = ship;
-                    console.log(`Ship added in ${this.grid[row + i][col]}`)
-                } else {
-                    // Handle the case where a cell is already occupied
-                    console.error('Error: Cell already occupied!');
-                    return;
                 }
             }
         } else {
@@ -41,10 +35,6 @@ class Gameboard {
                 }
                 if (!this.grid[row][col + i]) {
                     this.grid[row][col + i] = ship;
-                } else {
-                    // Handle the case where a cell is already occupied
-                    console.error('Error: Cell already occupied!');
-                    return;
                 }
             }
         }

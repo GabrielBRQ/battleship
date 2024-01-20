@@ -1,4 +1,4 @@
-import { playerAttack, AIAttack, createBoard } from "../scripts/player";
+import { attack, AIAttack, createBoard } from "../scripts/player";
 import { Gameboard } from "../scripts/gameboard";
 import { Ship } from "../scripts/ships";
 
@@ -22,8 +22,7 @@ test('player attack works', () => {
 
     playerBoard.placeShip(ship, 1, 2, true);
 
-
-    playerAttack(1,2, playerBoard);
+    attack(1,2, playerBoard);
     expect(ship.hits).toBe(1);
 });
 
