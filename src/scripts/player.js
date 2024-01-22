@@ -19,30 +19,44 @@ function listenPlayerAttack() {
 }
 
 function attack(event) {
-
-  // Function to place attack
-  const selectedCell = event.target;
-  // Get row and col
-  const rowIndex = selectedCell.parentNode.rowIndex;
-  const cellIndex = selectedCell.cellIndex;
-
-  console.log(playerOne.grid);
-  console.log(playerTwo.grid);
+  if(game.rounds % 2 !== 0){
+    // Function to place attack
+    const selectedCell = event.target;
+    // Get row and col
+    const rowIndex = selectedCell.parentNode.rowIndex;
+    const cellIndex = selectedCell.cellIndex;
   
-  if (!isCellAlreadyAttacked(rowIndex, cellIndex)) {
-    // Attack playerTwo
-    const attackResult = playerTwo.receiveAttack(parseInt(rowIndex), parseInt(cellIndex));
-
-    // Atualizar a interface com base no resultado do ataque, se necessário
-    updateUIAfterAttack(selectedCell, attackResult);
-  } else {
-    // Return if this cell is already attacked
-    return;
+    console.log(playerOne.grid);
+    console.log(playerTwo.grid);
+  
+    if (!isCellAlreadyAttacked(rowIndex, cellIndex)) {
+      changeTurn();
+      console.log(`Atacando em ${rowIndex}, ${cellIndex}`);
+      // Attack playerTwo
+      const attackResult = playerTwo.receiveAttack(
+        parseInt(rowIndex),
+        parseInt(cellIndex)
+      );
+  
+      // Atualizar a interface com base no resultado do ataque, se necessário
+      updateUIAfterAttack(selectedCell, attackResult);
+      setTimeout(() => {
+        AIAttack(playerOne);
+      }, 2000);
+    } else {
+      // Return if this cell is already attacked
+      return;
+    }
   }
 }
 
 function isCellAlreadyAttacked(row, col) {
-  return playerTwo.grid[row][col] !== null;
+  var elemento = playerTwo.grid[row][col];
+  if (elemento === null || typeof elemento === "object") {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 function AIAttack(board) {
@@ -57,11 +71,12 @@ function AIAttack(board) {
   game.AIAttacks.push(`${num1}-${num2}`);
 
   game.AIPlayed = true;
+  changeTurn();
 }
 
 function placeAIShips(AIBoard) {
   let shipSizes = [5, 4, 3, 3, 2];
-  for(let i = 0; i < 5; i++){
+  for (let i = 0; i < 5; i++) {
     let ship = new Ship(shipSizes.shift());
     let num1, num2, vertical;
 
@@ -69,9 +84,10 @@ function placeAIShips(AIBoard) {
     do {
       num1 = Math.floor(Math.random() * 10);
       num2 = Math.floor(Math.random() * 10);
-      vertical = (Math.floor(Math.random() * 10)) % 2 === 0;
+      vertical = Math.floor(Math.random() * 10) % 2 === 0;
     } while (!isValidPlacement(AIBoard, ship, num1, num2, vertical));
 
+    console.log(`O que foi passado: ${num1}, ${num2}, ${vertical}`);
     AIBoard.placeShip(ship, num1, num2, vertical);
   }
 }
@@ -104,10 +120,4 @@ function isValidPlacement(board, ship, row, col, isVertical) {
   return true;
 }
 
-export {
-  listenPlayerAttack,
-  AIAttack,
-  createBoard,
-  placeAIShips,
-  attack
-}
+export { listenPlayerAttack, AIAttack, createBoard, placeAIShips, attack };

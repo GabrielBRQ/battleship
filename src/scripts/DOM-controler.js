@@ -96,43 +96,34 @@ function assignmentShips(playerOne) {
       }
 
       const cell = assignmentTable.rows[rowIndex].cells[cellIndex];
+      const playerCell = playerOneTable.rows[rowIndex].cells[cellIndex];
 
       if (cell && cell.classList.contains("selected")) {
         return; // Return early if any of the cells are already selected
       }
-    }
-
-    // Mark the clicked cell and the next 'extraCells' cells
-    for (let i = 0; i < extraCells; i++) {
-      const rowIndex = isHorizontal
-        ? selectedCell.parentNode.rowIndex
-        : selectedCell.parentNode.rowIndex + i;
-
-      const cellIndex = isHorizontal
-        ? selectedCell.cellIndex + i
-        : selectedCell.cellIndex;
-
-      if (rowIndex > 9 || cellIndex > 9) {
-        return; // Return early if any part of the ship is outside the grid
-      }
-
-      // Create a new ship with the specified size
-      const newShip = createShip(shipSizes[currentShipIndex]);
-
-      // Call placeShip to position the ship on the gameboard
-      playerOne.placeShip(
-        newShip,
-        rowIndex,
-        selectedCell.cellIndex,
-        !isHorizontal
-      );
-
-      const cell = assignmentTable.rows[rowIndex].cells[cellIndex];
-      const playerCell = playerOneTable.rows[rowIndex].cells[cellIndex];
 
       if (cell) {
         cell.classList.add("selected");
         playerCell.classList.add("selected");
+      }
+
+      if (i === extraCells - 1) {
+        placePlayerShip(rowIndex, selectedCell.cellIndex);
+      }
+    }
+
+    function placePlayerShip(rowIndex, col) {
+      // Create a new ship with the specified size
+      const newShip = createShip(shipSizes[currentShipIndex]);
+
+      
+
+      // Call placeShip to position the ship on the gameboard
+      if(!isHorizontal){
+        playerOne.placeShip(newShip, rowIndex - (shipSizes[currentShipIndex] - 1), col, !isHorizontal);
+      }else {
+        playerOne.placeShip(newShip, rowIndex, col, !isHorizontal);
+
       }
     }
 
@@ -180,8 +171,11 @@ function assignmentShips(playerOne) {
 
 // Função para atualizar a interface após o ataque
 function updateUIAfterAttack(selectedCell, attackResult) {
-  selectedCell.textContent = '.';
-  console.log('chamou');
+  if(attackResult){
+    selectedCell.classList.add("hit");
+  } else {
+    selectedCell.classList.add("miss");
+  }
 }
 
 export { createGrid, startGame, updateUIAfterAttack };

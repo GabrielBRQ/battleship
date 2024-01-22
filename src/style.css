@@ -158,3 +158,13 @@ a img {
 .selected {
   background-color: rgb(83, 185, 52);
 }
+
+.hit {
+  background-color: rgb(204, 25, 25);
+  pointer-events: none;
+}
+
+.miss {
+  background-color: rgb(35, 91, 211);
+  pointer-events: none;
+}

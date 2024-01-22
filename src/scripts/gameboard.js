@@ -18,28 +18,18 @@ class Gameboard {
     }
 
     placeShip(ship, row, col, isVertical) {
-        // Put a ship on the board
-        if (isVertical) {
-            for (let i = 0; i < ship.size; i++) {
-                if (!this.grid[row + i]) {
-                    this.grid[row + i] = [];
-                }
-                if (!this.grid[row + i][col]) {
-                    this.grid[row + i][col] = ship;
-                }
-            }
-        } else {
-            for (let i = 0; i < ship.size; i++) {
-                if (!this.grid[row]) {
-                    this.grid[row] = [];
-                }
-                if (!this.grid[row][col + i]) {
-                    this.grid[row][col + i] = ship;
-                }
+        // Verificar se a linha ou coluna existe
+        for (let i = 0; i < ship.size; i++) {
+            // Atribuir o navio à célula
+            if (isVertical) {
+                this.grid[row + i][col] = ship;
+            } else {
+                this.grid[row][col + i] = ship;
             }
         }
         this.ships.push(ship);
     }
+
     receiveAttack(row, col) {
         // Receive an attack at specific coordinates
         const target = this.grid[row][col];
