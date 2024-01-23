@@ -1,6 +1,5 @@
 const game = {
   rounds: 1,
-  AIPlayed: false,
   AIAttacks: [],
 };
 

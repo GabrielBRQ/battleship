@@ -13,6 +13,18 @@
   padding: 0;
 }
 
+h2 {
+  transition: all 0.3s ease-in-out;
+}
+
+.footer a {
+  transition: all 0.3s ease-in-out;
+}
+
+.footer a:hover {
+  transform: scale(1.2);
+}
+
 .header {
   font-size: 6vh;
   padding: 3vh;
@@ -72,7 +84,7 @@ tr td {
 }
 
 td:hover {
-  background-color: rgb(182, 37, 37);
+  background-color: rgb(65, 64, 64);
 }
 
 .footer {
@@ -107,7 +119,8 @@ a img {
 }
 
 .menu,
-.ship-assignment{
+.ship-assignment,
+.result{
   position: absolute;
   top: 50%;
   left: 50%;
@@ -124,7 +137,8 @@ a img {
   gap: 5vh;
 }
 
-.ship-assignment {
+.ship-assignment,
+.result {
   display: none;
 }
 
@@ -167,4 +181,14 @@ a img {
 .miss {
   background-color: rgb(35, 91, 211);
   pointer-events: none;
+}
+
+.grayscale {
+  filter: grayscale(100%);
+  transform: scale(0.8);
+  opacity: 0.2;
+}
+
+.grayscale, .remove {
+  transition: all 0.3s ease-in-out;
 }

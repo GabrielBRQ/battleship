@@ -2,7 +2,7 @@ import { Gameboard } from "./gameboard";
 import { game, changeTurn } from "./game";
 import { Ship } from "./ships";
 import { playerOne, playerTwo } from "./index";
-import { updateUIAfterAttack } from "./DOM-controler";
+import { changeStyle, updateUIAfterAttack, finishGame } from "./DOM-controler";
 
 function createBoard() {
   return new Gameboard();
@@ -19,16 +19,16 @@ function listenPlayerAttack() {
 }
 
 function attack(event) {
-  if(game.rounds % 2 !== 0){
+  if (game.rounds % 2 !== 0) {
     // Function to place attack
     const selectedCell = event.target;
     // Get row and col
     const rowIndex = selectedCell.parentNode.rowIndex;
     const cellIndex = selectedCell.cellIndex;
-  
+
     console.log(playerOne.grid);
     console.log(playerTwo.grid);
-  
+
     if (!isCellAlreadyAttacked(rowIndex, cellIndex)) {
       changeTurn();
       console.log(`Atacando em ${rowIndex}, ${cellIndex}`);
@@ -37,12 +37,17 @@ function attack(event) {
         parseInt(rowIndex),
         parseInt(cellIndex)
       );
-  
-      // Atualizar a interface com base no resultado do ataque, se necessário
-      updateUIAfterAttack(selectedCell, attackResult);
-      setTimeout(() => {
-        AIAttack(playerOne);
-      }, 2000);
+
+      // Update UI after attack
+      updateUIAfterAttack(selectedCell, attackResult, false);
+      if(playerTwo.allShipsSunk()){
+        finishGame(true);
+      } else {
+        changeStyle();
+        setTimeout(() => {
+          AIAttack(playerOne);
+        }, 1000);
+      }
     } else {
       // Return if this cell is already attacked
       return;
@@ -67,11 +72,17 @@ function AIAttack(board) {
     num1 = Math.floor(Math.random() * 10);
     num2 = Math.floor(Math.random() * 10);
   }
-  board.receiveAttack(num1, num2);
+  const attackResult = board.receiveAttack(num1, num2);
+
   game.AIAttacks.push(`${num1}-${num2}`);
 
-  game.AIPlayed = true;
-  changeTurn();
+  updateUIAfterAttack([num1, num2], attackResult, true);
+  if(playerOne.allShipsSunk()){
+    finishGame(false);
+  } else {
+    changeTurn();
+    changeStyle();
+  }
 }
 
 function placeAIShips(AIBoard) {

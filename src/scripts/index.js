@@ -1,9 +1,10 @@
 import _ from "lodash";
 import "../style.css";
-import { createGrid, startGame } from "./DOM-controler";
+import { changeStyle, createGrid, startGame } from "./DOM-controler";
 import { Gameboard } from "./gameboard";
 import { listenPlayerAttack } from "./player";
 
+changeStyle();
 createGrid("playerOneGrid");
 createGrid("playerTwoGrid");
 const playerOne = new Gameboard();

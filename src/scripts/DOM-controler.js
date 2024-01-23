@@ -2,6 +2,7 @@ import { Gameboard } from "./gameboard";
 import { Ship, createShip } from "./ships";
 import { playerOne, playerTwo } from "./index";
 import { placeAIShips } from "./player";
+import { game } from "./game";
 
 function createGrid(tableId) {
   var table = document.getElementById(tableId);
@@ -91,7 +92,10 @@ function assignmentShips(playerOne) {
         ? selectedCell.cellIndex + i
         : selectedCell.cellIndex;
 
-      if (rowIndex > 9 || cellIndex > 9) {
+      if (
+        (!isHorizontal && rowIndex + (extraCells - i) -1 > 9) ||
+        (isHorizontal && cellIndex + (extraCells - i) -1 > 9)
+      ) {
         return; // Return early if any part of the ship is outside the grid
       }
 
@@ -116,14 +120,16 @@ function assignmentShips(playerOne) {
       // Create a new ship with the specified size
       const newShip = createShip(shipSizes[currentShipIndex]);
 
-      
-
       // Call placeShip to position the ship on the gameboard
-      if(!isHorizontal){
-        playerOne.placeShip(newShip, rowIndex - (shipSizes[currentShipIndex] - 1), col, !isHorizontal);
-      }else {
+      if (!isHorizontal) {
+        playerOne.placeShip(
+          newShip,
+          rowIndex - (shipSizes[currentShipIndex] - 1),
+          col,
+          !isHorizontal
+        );
+      } else {
         playerOne.placeShip(newShip, rowIndex, col, !isHorizontal);
-
       }
     }
 
@@ -170,12 +176,40 @@ function assignmentShips(playerOne) {
 }
 
 // Função para atualizar a interface após o ataque
-function updateUIAfterAttack(selectedCell, attackResult) {
-  if(attackResult){
+function updateUIAfterAttack(selectedCell, attackResult, isAI) {
+  if(isAI) {
+    var tabela = document.getElementById("playerOneGrid");
+    var row = selectedCell[0];
+    var col = selectedCell[1];
+    var selectedCell = tabela.rows[row].cells[col];
+  }
+  if (attackResult) {
     selectedCell.classList.add("hit");
   } else {
     selectedCell.classList.add("miss");
   }
 }
 
-export { createGrid, startGame, updateUIAfterAttack };
+function changeStyle(){
+  if (game.rounds % 2 === 1) {
+      document.querySelector('.playerTwo-title').classList.add('grayscale');
+      document.querySelector('.playerOne-title').classList.remove('grayscale');
+  } else {
+      document.querySelector('.playerOne-title').classList.add('grayscale');
+      document.querySelector('.playerTwo-title').classList.remove('grayscale');
+  }
+}
+
+function finishGame(playerOneWon) {
+  const result = document.querySelector('.result');
+  const resultTitle = document.querySelector('.result-title');
+
+  result.style.display = 'flex';
+  if(playerOneWon){
+    resultTitle.textContent = 'Player one Win!';
+  } else {
+    resultTitle.textContent = 'Player two Win!';
+  }
+}
+
+export { createGrid, startGame, updateUIAfterAttack, changeStyle, finishGame};
